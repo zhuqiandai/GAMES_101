@@ -20,6 +20,10 @@ const program = createProgram(
     fsSource
 ) as WebGL2RenderingContext
 
+const positionLocation = 0
+const divisorLocation = 1
+const divisorMatLocation = 2
+
 const { vertexPositions: cubePositions, indices: cubeIndices } = cube()
 
 // gui
@@ -39,12 +43,8 @@ const x = -0.5
 const y = -0.5
 const z = 0.0
 
-const divisorElements: number[] = []
-const divisorMatElements: number[] = []
-for (let i = 0; i <= 1; i += 0.2) {
-    divisorElements.push(x + i, y + i, z)
-    divisorMatElements.push(x + i, y + i, z)
-}
+let divisorElements: number[] = []
+let divisorMatElements: number[] = []
 
 // init & draw
 const init = () => {
@@ -53,9 +53,13 @@ const init = () => {
     gl.enable(gl.DEPTH_TEST)
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
 
-    const positionLocation = 0
-    const divisorLocation = 1
-    const divisorMatLocation = 2
+    for (let i = 0; i <= 1; i += 0.2) {
+        divisorElements.push(x + i, y, z)
+        divisorElements.push(x, y + i, z)
+
+        divisorMatElements.push(x + i, y, z)
+        divisorMatElements.push(x, y + i, z)
+    }
 
     gl.bindVertexArray(meshVAO)
 
@@ -106,16 +110,20 @@ const draw = (time: number) => {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
+    step += 0.01
+
     gl.bindVertexArray(meshVAO)
+
     gl.drawElementsInstanced(
         gl.TRIANGLES,
         cubeIndices.length,
         gl.UNSIGNED_SHORT,
         0,
-        6
+        6 * 2
     )
 
-    step += 0.01
+    gl.bindVertexArray(null)
+
     requestAnimationFrame(draw)
 }
 

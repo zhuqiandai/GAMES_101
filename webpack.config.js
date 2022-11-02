@@ -5,6 +5,9 @@ const path = require('path')
 module.exports = {
     entry: {
         index: './src/main.ts',
+        'common/index': './src/common/index.ts',
+        'render/GLAPI/InstanceDraw/index':
+            './src/render/GLAPI/InstanceDraw/index',
     },
 
     output: {
@@ -34,6 +37,10 @@ module.exports = {
             patterns: [
                 { from: 'src/assets/', to: 'assets/' },
                 { from: 'src/main.html' },
+                {
+                    from: 'src/render/GLAPI/InstanceDraw/index.html',
+                    to: 'render/GLAPI/InstanceDraw',
+                },
             ],
         }),
     ],

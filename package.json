@@ -41,6 +41,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "core-util-is": "^1.0.3",
     "cross-spawn": "^7.0.3",
+    "dat.gui": "^0.7.9",
     "debug": "^2.6.9",
     "default-gateway": "^6.0.3",
     "define-lazy-prop": "^2.0.0",
@@ -261,6 +262,7 @@
   },
   "homepage": "https://github.com/zhuqiandai/WebGL2_Codebase#readme",
   "devDependencies": {
+    "@types/dat.gui": "^0.7.7",
     "ts-loader": "^9.4.1"
   }
 }

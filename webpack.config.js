@@ -8,6 +8,8 @@ module.exports = {
         'common/index': './src/common/index.ts',
         'render/GLAPI/InstanceDraw/index':
             './src/render/GLAPI/InstanceDraw/index',
+        'render/GLAPI/UniformBuffer/index':
+            './src/render/GLAPI/UniformBuffer/index',
     },
 
     output: {
@@ -40,6 +42,10 @@ module.exports = {
                 {
                     from: 'src/render/GLAPI/InstanceDraw/index.html',
                     to: 'render/GLAPI/InstanceDraw',
+                },
+                {
+                    from: 'src/render/GLAPI/UniformBuffer/index.html',
+                    to: 'render/GLAPI/UniformBuffer',
                 },
             ],
         }),

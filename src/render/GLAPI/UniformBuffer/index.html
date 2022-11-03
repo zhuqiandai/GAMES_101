@@ -6,24 +6,30 @@
     </head>
 
     <body>
-        <h3>实例化绘制</h3>
+        <h3>Uniform Buffer Object</h3>
         <h4></h4>
         <canvas id="canvas"></canvas>
 
         <script id="vs" type="x-shader/x-vertex">#version 300 es
             layout(location = 0) in vec3 aPosition;
 
-            void main () {
-                vec4 posi = vec4(aPosition.xyz, 1.0);
+            layout(std140) uniform MVP {
+                mat4 model;
+                mat4 view;
+                mat4 projection; 
+            } mvp;
 
-                gl_Position = posi; 
+            void main () {
+                vec4 posi = vec4(aPosition.xyz * 0.2, 1.0);
+
+                gl_Position = mvp.model * posi; 
             }
         </script>
 
         <script id="fs" type="x-shader/x-fragment">#version 300 es
             precision mediump float;
 
-                        out vec4 fragColor;
+                                    out vec4 fragColor;
 
             void main () {
                 vec3 color = vec3(0.7, 0.7, 0.7);

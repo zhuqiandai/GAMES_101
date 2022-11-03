@@ -1,50 +1,23 @@
-import dat from 'dat.gui'
+import { initGL, cube } from '../../../common'
 import { mat4 } from 'gl-matrix'
-import { createProgram, cube } from '../../../common'
 
-const vsSource = document.getElementById('vs')?.textContent as string
-const fsSource = document.getElementById('fs')?.textContent as string
-
-const canvas = document.getElementById('canvas') as HTMLCanvasElement
-const gl = canvas.getContext('webgl2') as WebGL2RenderingContext
-
-const width = 800
-const height = 800
-
-const program = createProgram(
-    canvas,
-    gl,
-    width,
-    height,
-    vsSource,
-    fsSource
-) as WebGL2RenderingContext
-
-const positionLocation = 0
-const divisorLocation = 1
-const divisorMatLocation = 2
+const { gl, program } = initGL('vs', 'fs')
 
 const { vertexPositions: cubePositions, indices: cubeIndices } = cube()
 
+const positionLocation = 0
+
 const cubeVAO = gl.createVertexArray()
+const mvpUBO = gl.createBuffer()
 
-const draw = (time: number) => {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.clear(gl.COLOR_BUFFER_BIT)
+const model = mat4.create()
+const view = mat4.create()
+const projection = mat4.create()
+let mvpData = new Float32Array([...model, ...view, ...projection])
 
-    gl.bindVertexArray(cubeVAO)
-    gl.drawElements(gl.TRIANGLES, cubeIndices.length, gl.UNSIGNED_SHORT, 0)
-    gl.bindVertexArray(null)
-
-    requestAnimationFrame(draw)
-}
-
-// 数据
 const init = () => {
     gl.useProgram(program)
 
-    const positionLocation = 0
-    // cube vao
     gl.bindVertexArray(cubeVAO)
 
     const cubeBuffer = gl.createBuffer()
@@ -60,7 +33,32 @@ const init = () => {
 
     gl.bindVertexArray(null)
 
+    // Uniform Buffer Object
+    const UBO_BINDING_POINT = 0
+    gl.bindBufferBase(gl.UNIFORM_BUFFER, UBO_BINDING_POINT, mvpUBO)
+    gl.bufferData(gl.UNIFORM_BUFFER, mvpData, gl.DYNAMIC_DRAW)
+
+    const uniformBlockIndex = gl.getUniformBlockIndex(program, 'MVP')
+    gl.uniformBlockBinding(program, uniformBlockIndex, UBO_BINDING_POINT)
+}
+
+const draw = (time: number) => {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+
+    mat4.rotateX(model, model, Math.PI / 128)
+    mat4.rotateY(model, model, Math.PI / 128)
+    mat4.rotateZ(model, model, Math.PI / 128)
+
+    let mvpData = new Float32Array([...model, ...view, ...projection])
+    gl.bindBuffer(gl.UNIFORM_BUFFER, mvpUBO)
+    gl.bufferSubData(gl.UNIFORM_BUFFER, 0, mvpData)
+
+    gl.bindVertexArray(cubeVAO)
+    gl.drawElements(gl.TRIANGLES, cubeIndices.length, gl.UNSIGNED_SHORT, 0)
     gl.bindVertexArray(null)
+
+    requestAnimationFrame(draw)
 }
 
 init()

@@ -10,6 +10,8 @@ module.exports = {
             './src/render/GLAPI/InstanceDraw/index',
         'render/GLAPI/UniformBuffer/index':
             './src/render/GLAPI/UniformBuffer/index',
+        'render/Geometry/Parameter/index':
+            './src/render/Geometry/Parameter/index',
     },
 
     output: {
@@ -46,6 +48,10 @@ module.exports = {
                 {
                     from: 'src/render/GLAPI/UniformBuffer/index.html',
                     to: 'render/GLAPI/UniformBuffer',
+                },
+                {
+                    from: 'src/render/Geometry/Parameter/index.html',
+                    to: 'render/Geometry/Parameter',
                 },
             ],
         }),

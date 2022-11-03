@@ -1,33 +1,12 @@
-import dat from 'dat.gui'
-import { mat4 } from 'gl-matrix'
-import { createProgram, cube } from '../../../common'
+import { cube, initGL } from '../../../common'
 
-const vsSource = document.getElementById('vs')?.textContent as string
-const fsSource = document.getElementById('fs')?.textContent as string
-
-const canvas = document.getElementById('canvas') as HTMLCanvasElement
-const gl = canvas.getContext('webgl2') as WebGL2RenderingContext
-
-const width = 800
-const height = 800
-
-const program = createProgram(
-    canvas,
-    gl,
-    width,
-    height,
-    vsSource,
-    fsSource
-) as WebGL2RenderingContext
+const { gl, program } = initGL('vs', 'fs')
 
 const positionLocation = 0
 const divisorLocation = 1
 const divisorMatLocation = 2
 
 const { vertexPositions: cubePositions, indices: cubeIndices } = cube()
-
-// gui
-const gui = new dat.GUI()
 
 // mesh
 const meshVAO = gl.createVertexArray()

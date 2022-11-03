@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,34 +7,15 @@
     </head>
 
     <body>
-        <h3>实例化绘制</h3>
+        <h3>Uniform Buffer Object</h3>
         <h4></h4>
         <canvas id="canvas"></canvas>
 
         <script id="vs" type="x-shader/x-vertex">#version 300 es
             layout(location = 0) in vec3 aPosition;
-            layout(location = 1) in vec3 aDivisor;
-            layout(location = 2) in vec3 aMatDivisor;
-
-            mat4 rot (vec3 divisor) {
-                mat4 mat;
-                
-                mat[0][0] = cos(divisor.x);
-                mat[0][1] = -sin(divisor.y);
-
-                mat[1][0] = cos(divisor.x);
-                mat[1][1] = sin(divisor.y);
-                
-                mat[2][2] = 1.0;
-                mat[3][3] = 1.0;
-                
-                return mat;
-            }
 
             void main () {
-                vec4 posi = vec4(aPosition.xyz * 0.05 + aDivisor, 1.0);
-
-                mat4 rotateMat = rot(aMatDivisor);
+                vec4 posi = vec4(aPosition.xyz * 0.2, 1.0);
 
                 gl_Position = posi; 
             }

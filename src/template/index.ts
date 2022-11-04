@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { initGL, cube } from '../../../common'
 import { mat4 } from 'gl-matrix'
 
@@ -13,6 +14,8 @@ const init = () => {
     gl.useProgram(program)
 
     gl.bindVertexArray(cubeVAO)
+    
+    gl.enable(gl.DEPTH_TEST)
 
     const cubeBuffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, cubeBuffer)
@@ -30,7 +33,7 @@ const init = () => {
 
 const draw = (time: number) => {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
     gl.bindVertexArray(cubeVAO)
     gl.drawElements(gl.TRIANGLES, cubeIndices.length, gl.UNSIGNED_SHORT, 0)

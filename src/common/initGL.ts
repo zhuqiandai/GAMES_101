@@ -19,6 +19,7 @@ function initGL(vs: string, fs: string, width?: number, height?: number) {
     return {
         gl,
         program,
+        canvas,
     }
 }
 

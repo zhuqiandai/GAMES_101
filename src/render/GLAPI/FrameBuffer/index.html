@@ -1,12 +1,72 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html>
+    <head>
+        <title>Instance Draw</title>
+        <style></style>
+    </head>
+
+    <body>
+        <h3>Uniform Buffer Object</h3>
+        <h4></h4>
+        <canvas id="canvas"></canvas>
+
+        <script id="vs" type="x-shader/x-vertex">#version 300 es
+            layout(location = 0) in vec3 aPosition;
+            layout(location = 1) in vec2 aTexCoord;
+            
+            out vec2 vTexCoord;
+
+            void main () {
+                vTexCoord = aTexCoord;
+
+                vec4 posi = vec4(aPosition.xyz * 0.8, 1.0);
+
+                gl_Position = posi; 
+            }
+        </script>
+
+        <script id="fs" type="x-shader/x-fragment">#version 300 es
+            precision mediump float;
+            
+            in vec2 vTexCoord;
+
+            out vec4 fragColor;
+
+            uniform sampler2D uSampler;
+
+            void main () {
+                fragColor = texture(uSampler, vTexCoord);
+            }
+        </script>
+        
+
+        <script id="vsframe" type="x-shader/x-vertex">#version 300 es
+            layout(location = 0) in vec3 aPosition;
+
+            void main () {
+                vec4 posi = vec4(aPosition.xyz, 1.0);
+
+                gl_Position = posi; 
+            }
+        </script>
+
+        <script id="fsframe" type="x-shader/x-fragment">#version 300 es
+            precision mediump float;
+
+            out vec4 fragColor;
+            
+
+            float plot() {
+                
+            }
+
+            void main () {
+                vec3 color = vec3(0.1, 0.7, 0.7);
+                fragColor = vec4(color, 1.0);
+            }
+        </script>
+
+        <script src="index.js" type="module"></script>
+    </body>
 </html>

@@ -1,4 +1,4 @@
-import { initGL, cube } from '../../../common'
+import { initGL, cube, sphere } from '../../../common'
 
 const { gl, program, canvas } = initGL('vs', 'fs')
 const { program: frameProgram } = initGL('vsframe', 'fsframe')
@@ -8,10 +8,12 @@ const {
     indices: cubeIndices,
     vertexTextureCoords: cubeTexCoords,
 } = cube()
+const { vertexPositions: spherePositions, indices: sphereIndices } = sphere()
 
 const positionLocation = 0
 const texCoordLocation = 1
 const samplerLocation = gl.getUniformLocation(program, 'uSampler')
+const resolutionLocation = gl.getUniformLocation(frameProgram, 'uResolution')
 
 const cubeVAO = gl.createVertexArray()
 
@@ -112,6 +114,8 @@ const draw = (time: number) => {
     gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
 
     gl.useProgram(frameProgram)
+
+    gl.uniform1f(resolutionLocation, FRAME_HEIGHT / FRAME_WIDTH)
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.viewport(0, 0, FRAME_WIDTH, FRAME_HEIGHT)

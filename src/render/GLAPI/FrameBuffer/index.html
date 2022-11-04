@@ -54,15 +54,21 @@
         <script id="fsframe" type="x-shader/x-fragment">#version 300 es
             precision mediump float;
 
-            out vec4 fragColor;
+            uniform float uResolution;
             
+            out vec4 fragColor;
 
-            float plot() {
-                
+            float plot(vec2 st, float pct) {
+                return smoothstep(pct - 0.02, pct, st.y) - smoothstep(pct, pct + 0.02, st.y);    
             }
 
             void main () {
-                vec3 color = vec3(0.1, 0.7, 0.7);
+                vec2 st = gl_FragCoord.xy / uResolution;
+                
+                float pct = pow(st.x, 5.0);
+                float line = plot(st, pct);
+
+                vec3 color = vec3(step(0.5, st.x), 0.7, 0.7);
                 fragColor = vec4(color, 1.0);
             }
         </script>

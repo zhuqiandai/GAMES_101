@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-function sphere(radius, slices, stacks) {
+function sphere(radius = 0.5, slices = 32, stacks = 16) {
     radius = radius || 0.5
     slices = slices || 32
     stacks = stacks || 16

@@ -12,6 +12,8 @@ module.exports = {
             './src/render/GLAPI/UniformBuffer/index',
         'render/GLAPI/FrameBuffer/index':
             './src/render/GLAPI/FrameBuffer/index',
+        'render/Light/BasicLight/index':
+            './src/render/Light/BasicLight/index',
     },
 
     output: {
@@ -52,6 +54,10 @@ module.exports = {
                 {
                     from: 'src/render/GLAPI/FrameBuffer/index.html',
                     to: 'render/GLAPI/FrameBuffer',
+                },
+                {
+                    from: 'src/render/Light/BasicLight/index.html',
+                    to: 'render/Light/BasicLight',
                 },
             ],
         }),

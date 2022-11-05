@@ -13,10 +13,34 @@
 
         <script id="vs" type="x-shader/x-vertex">#version 300 es
             layout(location = 0) in vec3 aPosition;
+            layout(location = 1) in vec3 aNormal;
+
+            uniform vec3 lubo_view;
+            uniform vec3 lubo_position;
+            uniform vec3 lubo_color;
+            
+            struct Light {
+                vec3 view;
+                vec3 position;
+                vec3 color;
+            };
+
+            Light light;
+            
+            out vec3 vNormal;
+            out vec3 vPosition;
+            
+            out Light vlight;
 
             void main () {
-                vec4 posi = vec4(aPosition.xyz * 0.2, 1.0);
-
+                vPosition = aPosition;
+                vNormal = aNormal;
+                
+                light = Light(lubo_view, lubo_position, lubo_color); 
+                
+                vlight = light;
+                
+                vec4 posi = vec4(aPosition.xyz * 0.6, 1.0);
                 gl_Position = posi; 
             }
         </script>
@@ -24,11 +48,47 @@
         <script id="fs" type="x-shader/x-fragment">#version 300 es
             precision mediump float;
 
-            out vec4 fragColor;
+            struct Light {
+                vec3 view;
+                vec3 position;
+                vec3 color;
+            };
 
+            in vec3 vColor;
+            in vec3 vNormal;
+            in vec3 vPosition;
+            
+            in Light vlight;
+
+            float diffuse(vec3 lightDirection) {
+                float diffuse = max(dot(lightDirection, vNormal), 0.0);
+                
+                float diff = 0.2;
+
+                return diff * diffuse;
+            }
+            
+            float exponent(vec3 lightDirection) {
+                vec3 viewDirection = normalize(vlight.view - vPosition);
+                vec3 midV = normalize(lightDirection + viewDirection);
+                
+                float e = pow(max(dot(viewDirection, midV), 0.0), 128.0); 
+                float po = 2.0;
+                
+                return po * e;
+            } 
+
+            out vec4 fragColor;
+            
             void main () {
-                vec3 color = vec3(0.7, 0.7, 0.7);
-                fragColor = vec4(color, 1.0);
+                vec3 lightDirection = normalize(vlight.position - vPosition);
+
+                float diffuseVal = diffuse(lightDirection);
+                float exponentVal = exponent(lightDirection);
+
+                vec3 resultColor = (diffuseVal + exponentVal) * vlight.color;
+
+                fragColor = vec4(resultColor, 1.0);
             }
         </script>
 

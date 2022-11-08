@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Instance Draw</title>
+        <style></style>
+    </head>
+
+    <body>
+        <h3>Uniform Buffer Object</h3>
+        <h4></h4>
+        <canvas id="canvas"></canvas>
+
+        <script id="vs" type="x-shader/x-vertex">#version 300 es
+            layout(location = 0) in vec3 aPosition;
+            
+            uniform mat4 u_modelMat;
+
+            void main () {
+                vec4 posi = u_modelMat * vec4(aPosition.xyz, 1.0);
+
+                gl_Position = posi; 
+            }
+        </script>
+
+        <script id="fs" type="x-shader/x-fragment">#version 300 es
+            precision mediump float;
+            
+            uniform vec3 u_color;
+
+            out vec4 fragColor;
+
+            void main () {
+                vec3 color = u_color;
+                fragColor = vec4(color, 1.0);
+            }
+        </script>
+
+        <script src="index.js" type="module"></script>
+    </body>
+</html>

@@ -12,8 +12,10 @@ module.exports = {
             './src/render/GLAPI/UniformBuffer/index',
         'render/GLAPI/FrameBuffer/index':
             './src/render/GLAPI/FrameBuffer/index',
-        'render/Light/BasicLight/index':
-            './src/render/Light/BasicLight/index',
+        'render/Light/BasicLight/index': './src/render/Light/BasicLight/index',
+        'render/Interaction/Pick/index': './src/render/Interaction/Pick/index',
+        'render/Geometry/SceneGraph/index':
+            './src/render/Geometry/SceneGraph/index',
     },
 
     output: {
@@ -58,6 +60,14 @@ module.exports = {
                 {
                     from: 'src/render/Light/BasicLight/index.html',
                     to: 'render/Light/BasicLight',
+                },
+                {
+                    from: 'src/render/Interaction/Pick/index.html',
+                    to: 'render/Interaction/Pick',
+                },
+                {
+                    from: 'src/render/Geometry/SceneGraph/index.html',
+                    to: 'render/Geometry/SceneGraph',
                 },
             ],
         }),

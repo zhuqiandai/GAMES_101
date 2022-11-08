@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { initGL, cube, bindVAO } from '../../../common'
 
 const { gl, program, canvas } = initGL('vs', 'fs')
